@@ -1,0 +1,10 @@
+packages/
+bin/
+obj/
+node_modules/
+build/
+coverage/
+*.userprefs
+.DS_Store
+npm-debug.log
+snapkite-engine/
