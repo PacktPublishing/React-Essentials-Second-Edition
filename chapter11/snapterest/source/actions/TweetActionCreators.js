@@ -1,14 +1,12 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+import AppDispatcher from '../dispatcher/AppDispatcher';
 
 function receiveTweet(tweet) {
-  var action = {
+  const action = {
     type: 'receive_tweet',
-    tweet: tweet
+    tweet
   };
-  
+
   AppDispatcher.dispatch(action);
 }
 
-module.exports = {
-  receiveTweet: receiveTweet
-};
+export { receiveTweet };

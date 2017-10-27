@@ -1,11 +1,10 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import { EventEmitter } from 'events';
 
-var CHANGE_EVENT = 'change';
+const CHANGE_EVENT = 'change';
 
-var collectionTweets = {};
-var collectionName = 'new';
+let collectionTweets = {};
+let collectionName = 'new';
 
 function addTweetToCollection(tweet) {
   collectionTweets[tweet.id] = tweet;
@@ -27,28 +26,28 @@ function emitChange() {
   CollectionStore.emit(CHANGE_EVENT);
 }
 
-var CollectionStore = assign({}, EventEmitter.prototype, {
-
-  addChangeListener: function (callback) {
+const CollectionStore = Object.assign(
+  {}, EventEmitter.prototype, {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function (callback) {
+  removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getCollectionTweets: function () {
+  getCollectionTweets() {
     return collectionTweets;
   },
 
-  getCollectionName: function() {
+  getCollectionName() {
     return collectionName;
   }
 });
 
 function handleAction(action) {
+
   switch (action.type) {
-    
     case 'add_tweet_to_collection':
       addTweetToCollection(action.tweet);
       emitChange();
@@ -58,21 +57,22 @@ function handleAction(action) {
       removeTweetFromCollection(action.tweetId);
       emitChange();
       break;
-    
+
     case 'remove_all_tweets_from_collection':
       removeAllTweetsFromCollection();
       emitChange();
       break;
-    
+
     case 'set_collection_name':
       setCollectionName(action.collectionName);
       emitChange();
       break;
-    
+
     default: // ... do nothing
+
   }
 }
 
 CollectionStore.dispatchToken = AppDispatcher.register(handleAction);
 
-module.exports = CollectionStore;
+export default CollectionStore;

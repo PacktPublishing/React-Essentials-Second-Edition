@@ -1,23 +1,17 @@
-jest.dontMock('../Button.react');
+import React from 'react';
+import { shallow } from 'enzyme';
+import Button from '../Button';
 
-describe('Button component', function () {
-  it('calls handler function on click', function () {
-    var React = require('react');
-    var TestUtils = require('react-addons-test-utils');
-    var Button = require('../Button.react');
-    var handleClick = jest.genMockFunction();
+describe('Button', () => {
+  test('calls click handler function on click', () => {
+    const handleClickMock = jest.fn();
 
-    var button = TestUtils.renderIntoDocument(
-      <Button handleClick={handleClick} />
+    const wrapper = shallow(
+      <Button handleClick={handleClickMock}/>
     );
-    var buttonInstance = TestUtils.findRenderedDOMComponentWithTag(button, 'button');
-    
-    TestUtils.Simulate.click(buttonInstance);
-    
-    expect(handleClick).toBeCalled();
-    
-    var numberOfCallsMadeIntoMockFunction = handleClick.mock.calls.length;
-    
-    expect(numberOfCallsMadeIntoMockFunction).toBe(1);
+
+    wrapper.find('button').simulate('click');
+
+    expect(handleClickMock.mock.calls.length).toBe(1);
   });
 });

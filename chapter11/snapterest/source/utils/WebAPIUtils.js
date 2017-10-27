@@ -1,10 +1,8 @@
-var SnapkiteStreamClient = require('snapkite-stream-client');
-var TweetActionCreators = require('../actions/TweetActionCreators');
+import SnapkiteStreamClient from 'snapkite-stream-client';
+import { receiveTweet } from '../actions/TweetActionCreators';
 
 function initializeStreamOfTweets() {
-  SnapkiteStreamClient.initializeStream(TweetActionCreators.receiveTweet);
+  SnapkiteStreamClient.initializeStream(receiveTweet);
 }
 
-module.exports = {
-  initializeStreamOfTweets: initializeStreamOfTweets
-};
+export { initializeStreamOfTweets };

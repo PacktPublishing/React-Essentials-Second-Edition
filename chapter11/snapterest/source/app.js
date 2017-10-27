@@ -1,9 +1,11 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Application from './components/Application';
+import { initializeStreamOfTweets } from './utils/WebAPIUtils';
 
-var Application = require('./components/Application.react');
-var WebAPIUtils = require('./utils/WebAPIUtils');
+initializeStreamOfTweets();
 
-WebAPIUtils.initializeStreamOfTweets();
-
-ReactDOM.render(<Application />, document.getElementById('react-application'));
+ReactDOM.render(
+  <Application/>,
+  document.getElementById('react-application')
+);

@@ -1,24 +1,29 @@
-jest.dontMock('../Header.react');
+import React from 'react';
+import renderer from 'react-test-renderer';
+import Header, { DEFAULT_HEADER_TEXT } from '../Header';
 
-describe('Header component', function () {
-  it('renders provided header text', function () {
-    var React = require('react');
-    var ReactDOM = require('react-dom');
-    var TestUtils = require('react-addons-test-utils');
-    var Header = require('../Header.react');
-
-    var header = TestUtils.renderIntoDocument(
-      <Header text="Testing..." />
+describe('Header', () => {
+  test('renders default header text', () => {
+    const component = renderer.create(
+      <Header/>
     );
-    var actualHeaderText = ReactDOM.findDOMNode(header).textContent;
 
-    expect(actualHeaderText).toBe('Testing...');
-    
-    var defaultHeader = TestUtils.renderIntoDocument(
-      <Header />
+    const tree = component.toJSON();
+    const firstChild = tree.children[0];
+
+    expect(firstChild).toBe(DEFAULT_HEADER_TEXT);
+  });
+
+  test('renders provided header text', () => {
+    const headerText = 'Testing';
+
+    const component = renderer.create(
+      <Header text={headerText} />
     );
-    var actualDefaultHeaderText = ReactDOM.findDOMNode(defaultHeader).textContent;
-    
-    expect(actualDefaultHeaderText).toBe('Default header');
+
+    const tree = component.toJSON();
+    const firstChild = tree.children[0];
+
+    expect(firstChild).toBe(headerText);
   });
 });

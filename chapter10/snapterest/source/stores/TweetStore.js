@@ -1,7 +1,7 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
-var tweet = null;
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import EventEmitter from 'events';
+
+let tweet = null;
 
 function setTweet(receivedTweet) {
   tweet = receivedTweet;
@@ -11,17 +11,16 @@ function emitChange() {
   TweetStore.emit('change');
 }
 
-var TweetStore = assign({}, EventEmitter.prototype, {
-
-  addChangeListener: function (callback) {
+const TweetStore = Object.assign({}, EventEmitter.prototype, {
+  addChangeListener(callback) {
     this.on('change', callback);
   },
 
-  removeChangeListener: function (callback) {
+  removeChangeListener(callback) {
     this.removeListener('change', callback);
   },
 
-  getTweet: function () {
+  getTweet() {
     return tweet;
   }
 });
@@ -35,4 +34,4 @@ function handleAction(action) {
 
 TweetStore.dispatchToken = AppDispatcher.register(handleAction);
 
-module.exports = TweetStore;
+export default TweetStore;

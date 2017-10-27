@@ -1,39 +1,43 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+import AppDispatcher from '../dispatcher/AppDispatcher';
 
-module.exports = {
+function addTweetToCollection(tweet) {
+  const action = {
+    type: 'add_tweet_to_collection',
+    tweet
+  };
 
-  addTweetToCollection: function (tweet) {
-    var action = {
-      type: 'add_tweet_to_collection',
-      tweet: tweet
-    };
+  AppDispatcher.dispatch(action);
+}
 
-    AppDispatcher.dispatch(action);
-  },
+function removeTweetFromCollection(tweetId) {
+  const action = {
+    type: 'remove_tweet_from_collection',
+    tweetId
+  };
 
-  removeTweetFromCollection: function (tweetId) {
-    var action = {
-      type: 'remove_tweet_from_collection',
-      tweetId: tweetId
-    };
+  AppDispatcher.dispatch(action);
+}
 
-    AppDispatcher.dispatch(action);
-  },
+function removeAllTweetsFromCollection() {
+  const action = {
+    type: 'remove_all_tweets_from_collection'
+  };
 
-  removeAllTweetsFromCollection: function () {
-    var action = {
-      type: 'remove_all_tweets_from_collection'
-    };
+  AppDispatcher.dispatch(action);
+}
 
-    AppDispatcher.dispatch(action);
-  },
+function setCollectionName(collectionName) {
+  const action = {
+    type: 'set_collection_name',
+    collectionName
+  };
 
-  setCollectionName: function (collectionName) {
-    var action = {
-      type: 'set_collection_name',
-      collectionName: collectionName
-    };
-    
-    AppDispatcher.dispatch(action);
-  }
+  AppDispatcher.dispatch(action);
+}
+
+export default {
+  addTweetToCollection,
+  removeTweetFromCollection,
+  removeAllTweetsFromCollection,
+  setCollectionName
 };

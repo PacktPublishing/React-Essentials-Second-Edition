@@ -1,22 +1,22 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Header = require('./Header.react');
-var Tweet = require('./Tweet.react');
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Header from './Header';
+import Tweet from './Tweet';
+import CollectionActionCreators from '../actions/CollectionActionCreators';
 
-var StreamTweet = React.createClass({
+class StreamTweet extends Component {
+  state = {
+    numberOfCharactersIsIncreasing: null,
+    headerText: null
+  }
 
-  getInitialState: function () {
-    console.log('[Snapterest] StreamTweet: 1. Running getInitialState()');
-    
-    return {
-      numberOfCharactersIsIncreasing: null,
-      headerText: null
-    };
-  },
+  addTweetToCollection = tweet => {
+    CollectionActionCreators.addTweetToCollection(tweet);
+  }
 
-  componentWillMount: function () {
-    console.log('[Snapterest] StreamTweet: 2. Running componentWillMount()');
-    
+  componentWillMount() {
+    console.log('[Snapterest] StreamTweet: 1. Running componentWillMount()');
+
     this.setState({
       numberOfCharactersIsIncreasing: true,
       headerText: 'Latest public photo from Twitter'
@@ -26,23 +26,26 @@ var StreamTweet = React.createClass({
       numberOfReceivedTweets: 1,
       numberOfDisplayedTweets: 1
     };
-  },
-  
-  componentDidMount: function () {
-    console.log('[Snapterest] StreamTweet: 3. Running componentDidMount()');
-    
-    var componentDOMRepresentation = ReactDOM.findDOMNode(this);
+  }
+
+  componentDidMount() {
+    console.log('[Snapterest] StreamTweet: 2. Running componentDidMount()');
+
+    const componentDOMRepresentation = ReactDOM.findDOMNode(this);
     window.snapterest.headerHtml = componentDOMRepresentation.children[0].outerHTML;
     window.snapterest.tweetHtml = componentDOMRepresentation.children[1].outerHTML;
-  },
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     console.log('[Snapterest] StreamTweet: 4. Running componentWillReceiveProps()');
 
-    var currentTweetLength = this.props.tweet.text.length;
-    var nextTweetLength = nextProps.tweet.text.length;
-    var isNumberOfCharactersIncreasing = (nextTweetLength > currentTweetLength);
-    var headerText;
+    const { tweet: currentTweet } = this.props;
+    const { tweet: nextTweet } = nextProps;
+
+    const currentTweetLength = currentTweet.text.length;
+    const nextTweetLength = nextTweet.text.length;
+    const isNumberOfCharactersIncreasing = (nextTweetLength > currentTweetLength);
+    let headerText;
 
     this.setState({
       numberOfCharactersIsIncreasing: isNumberOfCharactersIncreasing
@@ -55,46 +58,47 @@ var StreamTweet = React.createClass({
     }
 
     this.setState({
-      headerText: headerText
+      headerText
     });
 
     window.snapterest.numberOfReceivedTweets++;
-  },
+  }
 
-  shouldComponentUpdate: function (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     console.log('[Snapterest] StreamTweet: 5. Running shouldComponentUpdate()');
-    
     return (nextProps.tweet.text.length > 1);
-  },
+  }
 
-  componentWillUpdate: function (nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState) {
     console.log('[Snapterest] StreamTweet: 6. Running componentWillUpdate()');
-  },
+  }
 
-  componentDidUpdate: function (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     console.log('[Snapterest] StreamTweet: 7. Running componentDidUpdate()');
-    
     window.snapterest.numberOfDisplayedTweets++;
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     console.log('[Snapterest] StreamTweet: 8. Running componentWillUnmount()');
-    
-    delete window.snapterest;
-  },
 
-  render: function () {
+    delete window.snapterest;
+  }
+
+  render() {
     console.log('[Snapterest] StreamTweet: Running render()');
-    
+
+    const { tweet } = this.props;
+
     return (
       <section>
         <Header text={this.state.headerText} />
         <Tweet
-          tweet={this.props.tweet}
-          onImageClick={this.props.onAddTweetToCollection} />
+          tweet={tweet}
+          onImageClick={this.addTweetToCollection}
+        />
       </section>
-    ); 
+    );
   }
-});
+}
 
-module.exports = StreamTweet;
+export default StreamTweet;
