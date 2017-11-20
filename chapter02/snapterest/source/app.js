@@ -10,6 +10,6 @@ const listOfItems = (
 );
 
 ReactDOM.render(
-  reactElement,
+  listOfItems,
   document.getElementById('react-application')
 );

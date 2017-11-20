@@ -6,13 +6,26 @@ class StatefulComponent extends Component {
     isHeaderHidden: false
   };
 
-  handleClick() {
+  handleClick = () => {
     this.setState({
       isHeaderHidden: !this.state.isHeaderHidden
     });
   }
 
   render() {
+    const { isHeaderHidden } = this.state;
+
+    if (isHeaderHidden) {
+      return (
+        <button
+          className="btn ban-default"
+          onClick={this.handleClick}
+        >
+          Toggle Header
+        </button>
+      );
+    }
+    
     return (
       <div>
         <h1 className="header" key="header">
