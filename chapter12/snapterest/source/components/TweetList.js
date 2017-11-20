@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Tweet from './Tweet';
-//import CollectionActionCreators from '../actions/CollectionActionCreators';
 import { removeTweetFromCollection } from '../actions';
 
 const listStyle = {
@@ -15,33 +14,22 @@ const listItemStyle = {
 };
 
 class TweetList extends Component {
-  removeTweetFromCollection = (tweet) => {
-    CollectionActionCreators.removeTweetFromCollection(tweet.id);
-  }
-
   getListOfTweetIds = () =>
     Object.keys(this.props.tweets);
 
   getTweetElement = (tweetId) => {
-    const { tweets } = this.props;
-    const onRemoveTweetFromCollection = this.removeTweetFromCollection;
+    const {
+      tweets,
+      onRemoveTweetFromCollection
+    } = this.props;
     const tweet = tweets[tweetId];
-    let tweetElement;
 
-    if (onRemoveTweetFromCollection) {
-      tweetElement = (
+    return (
+      <li style={listItemStyle} key={tweet.id}>
         <Tweet
           tweet={tweet}
           onImageClick={onRemoveTweetFromCollection}
         />
-      );
-    } else {
-      tweetElement = <Tweet tweet={tweet}/>;
-    }
-
-    return (
-      <li style={listItemStyle} key={tweet.id}>
-        {tweetElement}
       </li>
     );
   }
